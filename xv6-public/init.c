@@ -20,7 +20,7 @@ main(void)
   dup(0);  // stderr
 
   for(;;){
-    printf(1, "init: starting sh\n");
+    printf(1, "Bienvenido: Iniciando sh\n");
     pid = fork();
     if(pid < 0){
       printf(1, "init: fork failed\n");
@@ -28,6 +28,7 @@ main(void)
     }
     if(pid == 0){
       exec("sh", argv);
+      // Si el comando de arriba tiene un proceso diferente a sh o uno inexistente, el sistema entra en loop infinito.
       printf(1, "init: exec sh failed\n");
       exit();
     }
