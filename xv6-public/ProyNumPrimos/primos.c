@@ -4,6 +4,7 @@
 
 int created;
 int n;
+int size;
 int limit;
 pid_t id;
 int p1[2];
@@ -27,7 +28,7 @@ void passNumber(int m){
             //fprintf(stderr, "%d\n", m);
         }
     }else{
-        char c[3];
+        char c[size];
         sprintf(c, "%d", m);
         write(p2[1], c, sizeof(c));
     }
@@ -36,16 +37,22 @@ void passNumber(int m){
 int main(int argc,char** argv){
     created=0;
     pipe(p2);
-    char a[3];
-    read(0, a, sizeof(a));
+    // Size of char digits
+    char sizec[10];
+    read(0 ,sizec, sizeof(sizec));
+    size = atoi(sizec);
+    // Limit
+    char a[size];
+    read(0, a, size);
     limit = atoi(a);
-    read(0, a, sizeof(a));
+    // First number(2)
+    read(0, a, size);
     n = atoi(a);
     fprintf(stderr, "Prime Numbers:%d, ", n);
-    char curr[3];
+    char curr[size];
     int i;
     do{
-        read(p1[0], curr, sizeof(curr));
+        read(p1[0], curr, size);
         if(atoi(curr)==limit+1){
             break;
         }
@@ -56,7 +63,7 @@ int main(int argc,char** argv){
         }
     }while(atoi(curr)<limit);
     sprintf(a, "%d", limit+1);
-    write(p2[1], a, sizeof(a));
+    write(p2[1], a, size);
     if(created==0){
         fprintf(stderr, "\n");
     }
